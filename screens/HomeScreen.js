@@ -11,10 +11,10 @@ import { auth, firestore } from "../src/firebase";
 import ChatDetails from "./ChatDetails";
 
 export default function HomeScreen({ route, navigation }) {
-    const { userEmail } = route.params; // Get the user's email from navigation params
-    const [userChats, setUserChats] = useState([]); // Store user's chat data
+    const { userEmail } = route.params;
+    const [userChats, setUserChats] = useState([]);
 
-    // Use the userEmail to fetch user-specific chat data from Firestore
+
 
     const getInitials = (name) => {
         const nameArray = name.split(" ");
@@ -41,9 +41,9 @@ export default function HomeScreen({ route, navigation }) {
 
                 querySnapshot.forEach((doc) => {
                     const chatData = doc.data();
-                    // Include the document ID in the chat object
+
                     const chat = {
-                        id: doc.id, // Add this line
+                        id: doc.id,
                         ...chatData,
                     };
                     chats.push(chat);
@@ -59,13 +59,13 @@ export default function HomeScreen({ route, navigation }) {
     }, [userEmail]);
 
 
-    // Define a function to navigate to a chat room
+
     const navigateToChat = (chat) => {
-        console.log("Navigating to chat:", chat); // Add this line
+        console.log("Navigating to chat:", chat);
         navigation.navigate("ChatDetails", { chat });
     };
 
-    // Define a function to render each chat item
+
     const renderChatItem = ({ item }) => (
         <TouchableOpacity onPress={() => navigateToChat(item)} style={styles.chatItem}>
             <View style={styles.avatarContainer}>
@@ -73,7 +73,7 @@ export default function HomeScreen({ route, navigation }) {
             </View>
             <View style={styles.chatContent}>
                 <Text style={styles.chatName}>{item.name}</Text>
-                {/* Render last message and other chat components here */}
+
             </View>
         </TouchableOpacity>
     );
@@ -85,7 +85,7 @@ export default function HomeScreen({ route, navigation }) {
             </View>
             <FlatList
                 data={userChats}
-                keyExtractor={(item) => item.name} // Assuming each chat has a unique name
+                keyExtractor={(item) => item.name}
                 renderItem={renderChatItem}
             />
         </View>
@@ -136,6 +136,6 @@ const styles = StyleSheet.create({
     avatarInitials: {
         fontSize: 20,
         fontWeight: "bold",
-        color: "black", // Adjust the color as needed
+        color: "black",
     },
 });

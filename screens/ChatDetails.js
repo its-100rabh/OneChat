@@ -15,24 +15,24 @@ export default function ChatDetails({ route }) {
     const { chat } = route.params;
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
-    const [unsubscribe, setUnsubscribe] = useState(null); // Store the unsubscribe function
+    const [unsubscribe, setUnsubscribe] = useState(null);
 
     const fetchUserNameByEmail = async (userEmail) => {
         try {
-            // Create a query to search for the user document with the given email
+
             const q = query(collection(firestore, "users"), where("email", "==", userEmail));
 
             const querySnapshot = await getDocs(q);
 
             if (querySnapshot.size === 1) {
-                // Assuming there's only one user document with this email
+
                 const userDoc = querySnapshot.docs[0];
                 const userData = userDoc.data();
 
-                // Return the user's name
+
                 return userData.name;
             } else {
-                // Handle the case when no user with the email is found
+
                 return "Unknown User";
             }
         } catch (error) {
@@ -89,13 +89,13 @@ export default function ChatDetails({ route }) {
                 timestamp: serverTimestamp(),
             };
 
-            // Add the new message to Firestore
+
             await addDoc(collection(firestore, "chatrooms", chat.id, "messages"), newMessageData);
 
-            // Update the state immediately with the new message
+
             setMessages((prevMessages) => [...prevMessages, newMessageData]);
 
-            // Clear the new message input
+
             setNewMessage("");
         } catch (error) {
             console.error("Error sending message:", error);
@@ -200,20 +200,20 @@ const styles = StyleSheet.create({
         alignSelf: "flex-end",
         flexDirection: "column",
         alignItems: "flex-end",
-        backgroundColor: "#DCF8C6", // Light green background color
-        borderRadius: 10, // Add border radius for rounded corners
-        padding: 10, // Increase padding for better spacing
+        backgroundColor: "#DCF8C6",
+        borderRadius: 10,
+        padding: 10,
     },
 
-    // Update the other user's chat bubble
+
     otherUserMessage: {
         marginBottom: 16,
         maxWidth: "70%",
         alignSelf: "flex-start",
         flexDirection: "column",
         alignItems: "flex-start",
-        backgroundColor: "#F2F2F2", // Gray background color
-        borderRadius: 10, // Add border radius for rounded corners
-        padding: 10, // Increase padding for better spacing
+        backgroundColor: "#F2F2F2",
+        borderRadius: 10,
+        padding: 10,
     },
 });
